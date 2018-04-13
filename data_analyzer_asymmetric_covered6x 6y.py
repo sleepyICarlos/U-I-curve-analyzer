@@ -273,8 +273,11 @@ def plot_G_L_A_circ__correlation(data_set, fit_deg, fit_points, param, output=pl
     data_labels=data_set.names
     data_set.G, data_set.G_err=[], []
     fig, ax = plt.subplots()
+    x_plot_axis=np.arange(12)
+    #x_plot_axis=[1,2,3,4,5]
+    axes_label=data_set.labels
     if param=="circ":
-        axes_label=["circumference (mm)", "$G$ (1/G$\Omega$)"]
+        axes_label=["measurement number", "$G$ (1/G$\Omega$)"]
         xdata_set=data_set.circ
     if param =="L":
         axes_label=["length (um)", "$G$ (1/G$\Omega$)"]
@@ -284,7 +287,7 @@ def plot_G_L_A_circ__correlation(data_set, fit_deg, fit_points, param, output=pl
         xdata_set=data_set.A
     #if param =="G":                to-do 
     for i in range(len(data_set.data)):
-        x=xdata_set[i]
+        x=x_plot_axis
         (y, y_err)= (process_data(data_set.data[i][0], fit_deg, fit_points, data_labels[i], fig, ax, output=output))[2:4]
         data_set.G.append(y)
         data_set.G_err.append(y_err)
@@ -303,6 +306,8 @@ def plot_all_POI(data_set, POI, fit_deg, fit_points):
     for interest in range(len(POI)):
         print(interest, len(POI))
         plot_G_L_A_circ__correlation(data_set, fit_deg, fit_points, param=POI[interest])
+
+
 
 plot_all_POI(doped, ["A", "L", "circ"], 1, 20)
 #plot_all_POI(undoped, ["A", "L", "circ"], 1, 20)
