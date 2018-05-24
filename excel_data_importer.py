@@ -12,9 +12,9 @@ import os
 """convert xls to xlsx and write txt files
         !!!user imput required!!!"""
 sample_folder = ("Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" +
-            "\\IHT_probe_station\\M12-0143\\143-1(Ar+H20)\\TLM 3 - Kopie")
-book = sample_folder + "\\data\\23-5-18_143-1_Areas.xls"
-date = "22-5-18"
+            "IHT_probe_station\\M12-0143\\143-1(Ar+H20)\\TLM 2 - Kopie")
+book = sample_folder + "\\data\\10-5-18_143-1_Areas.xls"
+date="18-5-18"
 sample_name = "143-1"
 #%%
 """define experiment and data set"""
@@ -29,7 +29,8 @@ class experiment():
         self.sample_folder= sample_folder
         self.data_folder= sample_folder +"\\data"
         self.date=date
-        
+
+area_pad_labels=["6-6", "5-5"]      
 area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
 #area_pads.reverse() #optional
 TLM_data_set = experiment(structure=sample_name, xls_name=book, 
@@ -69,13 +70,22 @@ def all_sheet_txt_export(experiment, light=False):
             structure_type= experiment.contact_type
             if structure_type =="TLM":
                     write_param *= 30
-                    save_name= "%s_%s_TLM_%d_um.txt" %(date, experiment.structure, write_param)
+                    save_name= "%s_%s_TLM_%d_um.txt" %(date, 
+                                                       experiment.structure,
+                                                       write_param)
             elif structure_type =="Areas":
                     print("TLM", write_param)
                     write_param = experiment.pads[write_param-1];
-                    save_name= "%s_%s_Areas_%s.txt" % (date, experiment.structure, write_param)
+                    save_name= "%s_%s_Areas_%s.txt" % (date, 
+                                                       experiment.structure,
+                                                       write_param)
+                    
             save_name= "%s\\%s" %(export_folder, save_name)
             export_sheet_to_txt(xls_name, sheet_index, save_name)
+            
+TLM_data_set = experiment(structure=sample_name, xls_name=book, 
+                          sample_folder = sample_folder, date=date)
+all_sheet_txt_export(TLM_data_set, light)
 #%%
 """for different books with the following structure: light + dark data:
     (only sheet0 and sheet3 contain relevant data)
@@ -89,7 +99,6 @@ def light_dark_single_txt_files_export(data_set, light):
     structure_type = data_set.contact_type
     contents = xls_name.split("_")
     write_param=int(contents[-2])
-    date= data_set.date
     
     #select the right sheet and create data folder
     if light==True:
@@ -102,11 +111,11 @@ def light_dark_single_txt_files_export(data_set, light):
         os.makedirs(data_folder)
 
     if structure_type == "TLM":
-        save_name= "%s_%s_TLM_%d_um.txt" %(date, data_set.structure,
+        save_name= "%s_%s_TLM_%d_um.txt" %(data_set.date, data_set.structure,
                                            write_param)
     elif structure_type =="Areas":
         write_param = data_set.pads[write_param-1];
-        save_name= "%s_%s_Areas_%f_Areas_%s.txt" % (date, data_set.structure,
+        save_name= "%s_%s_Areas_%f_Areas_%s.txt" % (data_set.date, data_set.structure,
                                                     write_param)
     
     save_name= "%s\\%s" %(data_folder, save_name)
@@ -129,5 +138,7 @@ def export_light_dark_single_files(data_set, light=True):
 def export_light_dark(data_set):
     export_light_dark_single_files(data_set, light=False)
     export_light_dark_single_files(data_set, light=True)
-    
-export_light_dark(TLM_data_set)
+
+#TLM_data_set = experiment(structure=sample_name, xls_name=book, 
+#                          sample_folder = sample_folder, date=date)
+#export_light_dark(TLM_data_set)
