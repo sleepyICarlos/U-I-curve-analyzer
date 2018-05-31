@@ -11,59 +11,58 @@ import os
 """read xls and write txt files
         !!!user input required!!!
         precision is now set to 5 digits"""
-sample_folder = ("M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas")
-path_office = ("Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" +
-                "IHT_probe_station\\")
-path_home = "D:\\documents\\sciebo\\ZnSe\\wafer\\"
-book = sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
+# adjustable parameters
+sample_folder = "M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas"
+
 date = "23-5-18"
 sample_name = "143-2"
-area_pad_labels = ["6-6", "5-5", "4-4"]
-# area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
+area_pad_labels = ["6-6", "5-5", "4-4"]  # area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
 area_pad_labels.reverse()  # optional
+
+# fix parameters:
+path_office = "Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" + "IHT_probe_station\\"
+path_home = "D:\\documents\\sciebo\\ZnSe\\wafer\\"
 precision = 5           # number of digits
-A303_office = False     # has to be integrated in my code, evtl add an user selection, user specific presets.
-
-
 
 
 class office():
-    def __init__(self, user, work_station, path):
+    def __init__(self, user, work_station, folder):
         self.user = user
         self.PC = work_station
-        self.path = path
+        self.folder = folder
+
+def set_path(office, sub_folder):
+    path = office.folder + sub_folder
+    print(path)
+    return path
 
 
-def set_path(folder, path1, path2, office):
-    if office.PC == "home":
-        folder = path1 + folder
-    else:
-        folder = path2 + folder
-    return folder
-
-
-home_office = office("FH", "ag-bluhm-16", path_office)
-sample_folder = set_path(sample_folder, path_office, path_home, office=A303_office)
+home_office = office("FH", "Felix-PC", path_home)
+# uni_office = office("FH", "ag-bluhm-16", folder=path_office)
+my_sample_folder = set_path(home_office, sample_folder)
+print(my_sample_folder)
+my_book = my_sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
+print(my_book)
 #%%
 """define experiment and data set"""
 class experiment():
-    def __init__(self, structure=[], pad_labels=[], contact_type="TLM", 
-                 xls_name=[], sample_folder=[], comment=[], date=[]):
+    def __init__(self, structure="", pad_labels=[], contact_type="TLM",
+                 xls_name="", sample_folder="", comment="", date=""):
         self.xls_name= xls_name
         self.contact_type = contact_type
         self.structure = structure
         self.pad_labels= pad_labels             #contact pads
         self.comment =comment
         self.sample_folder= sample_folder
-        self.data_folder= sample_folder +"\\data"
+        self.data_folder= sample_folder + "\\data"
         self.date=date
 #%%
-TLM_data_set = experiment(structure=sample_name, xls_name=book, 
-                          sample_folder = sample_folder, date=date)
+TLM_data_set = experiment(structure=sample_name, xls_name=my_book,
+                          sample_folder=my_sample_folder, date=date)
 
-Area_data_set = experiment(structure=sample_name, xls_name=book,
+Area_data_set = experiment(structure=sample_name, xls_name=my_book,
                            pad_labels=area_pad_labels,
-                           contact_type="Areas", sample_folder = sample_folder,
+                           contact_type="Areas", sample_folder=my_sample_folder,
                            date=date)
 #%%
 def export_sheet_to_txt(xls_name, sheet_index, save_name, precision=precision):  
@@ -78,7 +77,7 @@ def export_sheet_to_txt(xls_name, sheet_index, save_name, precision=precision):
 #%% 
 """read single xls containing only light/dark data, save sheets to txt-file"""
 def all_sheets_txt_export(experiment, light=False): 
-    xls_name=experiment.xls_name           #structure: TLM, Areas, Stripes, ...
+    xls_name=experiment.xls_name           #structure: TLM, Areas, Stripes, ... TODO!!!
     book = pyexcel.get_book(file_name=xls_name)
     number_of_sheets=book.number_of_sheets()
     if light:
@@ -117,7 +116,7 @@ def all_sheets_txt_export(experiment, light=False):
 
 
 #%%
-all_sheets_txt_export(Area_data_set, light=False)
+# all_sheets_txt_export(Area_data_set, light=False)
 #%% 
 """read single xls containing alternatingly light/ dark data
     save sheets to txt-file"""
@@ -177,7 +176,7 @@ def alt_export_all(data_set):
     alt_sheet_export(data_set, light=True)
     alt_sheet_export(data_set, light=False)
 #%%
-#alt_export_all(Area_data_set)
+alt_export_all(Area_data_set)
 #%%
 """for different books with the following structure: light + dark data:
     (only sheet0 and sheet3 contain relevant data)
