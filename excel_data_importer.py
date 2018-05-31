@@ -127,9 +127,9 @@ def alt_sheet_export(experiment, light=False):
 
     #set export folder
     if light:
-        export_folder=sample_folder + "\\data with light"
+        export_folder=experiment.sample_folder + "\\data with light"
     else:
-        export_folder=sample_folder + "\\data without light"
+        export_folder=experiment.sample_folder + "\\data without light"
     if not os.path.exists(export_folder):
         os.makedirs(export_folder)
         print("folder created: %s" %export_folder)
@@ -167,7 +167,7 @@ def alt_sheet_export(experiment, light=False):
                     save_name= "%s_%s_Areas_%s.txt" % (date, 
                                                        experiment.structure,
                                                        write_param)
-            print("save %s" %save_name)        
+            print("save to folder %s: %s" %(export_folder, save_name))
             save_name= "%s\\%s" %(export_folder, save_name)
             export_sheet_to_txt(xls_name, sheet_index, save_name)
                 
