@@ -20,8 +20,8 @@ area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
 office = True
 
 my_sample_folder = ex.set_sample_folder(sample_path, office=False)
-my_book = my_sample_folder + "\\data\\22-5-18_143-1_Areas_6-6"
-print("Read %s in dir %s" % (my_book, my_sample_folder))
+my_book = my_sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"      # xls in file_name required
+print("Read file:\n%s in dir:\n%s" % (my_book, my_sample_folder))
 
 #%%
 """define work_station and data sets"""
@@ -30,8 +30,7 @@ TLM_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folder
 Area_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder, date=data_date,
                            pad_labels=area_pad_labels, contact_type="Areas")
 
-
-# ex.all_sheets_txt_export(Area_data_set, light=False)
+ex.all_sheets_txt_export(TLM_data_set, light=True)
 # ex.alt_export_all(Area_data_set)
-ex.export_light_dark(Area_data_set)
-ex.export_light_dark(TLM_data_set)
+# ex.export_light_dark(Area_data_set)
+# ex.export_light_dark(TLM_data_set)

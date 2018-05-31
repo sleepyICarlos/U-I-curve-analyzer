@@ -62,11 +62,11 @@ def export_sheet_to_txt(xls_name, sheet_index, save_name, precision=data_precisi
                header=rows, comments="", delimiter="\t")
 
 
-"""read single xls containing only light/dark data, save sheets to txt-file"""
+"""read single xls containing only light OR dark data, save all data sheets to txt-file"""
 
 
 def all_sheets_txt_export(data, light=False):
-    xls_name = data.xls_name  # structure: TLM, Areas, (STRIPES: todo)
+    xls_name = data.xls_name  # structure: TLM, Areas, todo: Stripes
     book = pyexcel.get_book(file_name=xls_name)
     number_of_sheets = book.number_of_sheets()
     if light:
@@ -85,7 +85,6 @@ def all_sheets_txt_export(data, light=False):
                 write_param = sheet_index + 1
             else:
                 write_param = sheet_index - 1
-
             # select the right formatter depending on the measured structure:
             structure_type = data.contact_type
             if structure_type == "TLM":
@@ -101,11 +100,13 @@ def all_sheets_txt_export(data, light=False):
 
             export_name = "%s\\%s" % (export_folder, save_name)
             export_sheet_to_txt(xls_name, sheet_index, export_name)
+            print("sheet %d %s saved successfully." % (sheet_index, save_name))
+    print("export finished.")
 
 
 #%%
-"""read single xls containing alternatingly light/ dark data
-    save sheets to txt-file"""
+"""read single xls containing alternately light/ dark data,
+    save sheets to txt-files"""
 
 
 def alt_sheet_export(data, light=False):
@@ -156,15 +157,17 @@ def alt_sheet_export(data, light=False):
             print("save to folder %s: %s" % (export_folder, save_name))
             save_name = "%s\\%s" % (export_folder, save_name)
             export_sheet_to_txt(xls_name, sheet_index, save_name)
+            print("sheet %d saved successfully as \"%s\"." % (index, save_name))
 
 
 def alt_export_all(data_set):
     alt_sheet_export(data_set, light=True)
     alt_sheet_export(data_set, light=False)
+    print("export finished.")
 
 
 #%%
-"""for different books with the following structure: light + dark data:
+"""for many xls-books with the following structure: light + dark data:
     (only sheet0 and sheet3 contain relevant data)
     read xls-books and write txt.files to separate subfolders
     Takes as argument the corresponding folder like
@@ -197,6 +200,7 @@ def light_dark_single_txt_files_export(data_set, light):
 
     save_name = "%s\\%s" % (data_folder, save_name)     # optional insert your file name extension here
     export_sheet_to_txt(xls_name, sheet_index, save_name)
+    print("light: %b. sheet %d saved successfully as \"%s\". " % (light, sheet_index, save_name))
 
 
 """read all xls files in \data
@@ -219,3 +223,4 @@ def export_light_dark_single_files(data_set, light=True):
 def export_light_dark(data_set):
     export_light_dark_single_files(data_set, light=False)
     export_light_dark_single_files(data_set, light=True)
+    print("export finished.")
