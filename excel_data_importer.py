@@ -5,22 +5,45 @@ Created on Tue May 22 15:03:11 2018
 @author: hartz
 """
 import pyexcel
-import pyexcel.ext.xlsx
-import numpy as  np
+import numpy as np
 import os
 #%% 
-"""convert xls to xlsx and write txt files
-        !!!user imput required!!!
+"""read xls and write txt files
+        !!!user input required!!!
         precision is now set to 5 digits"""
-sample_folder = ("Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" +
-            "IHT_probe_station\\M12-0143\\143-2 Mg+Ar mill + H2O etch\\bonded Areas")
+sample_folder = ("M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas")
+path_office = ("Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" +
+                "IHT_probe_station\\")
+path_home = "D:\\documents\\sciebo\\ZnSe\\wafer\\"
 book = sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
-date="23-5-18"
+date = "23-5-18"
 sample_name = "143-2"
-area_pad_labels=["6-6"]#, "5-5"]
-#area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
-area_pad_labels.reverse() #optional
-precision= 5 #digits
+area_pad_labels = ["6-6", "5-5", "4-4"]
+# area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
+area_pad_labels.reverse()  # optional
+precision = 5           # number of digits
+A303_office = False     # has to be integrated in my code, evtl add an user selection, user specific presets.
+
+
+
+
+class office():
+    def __init__(self, user, work_station, path):
+        self.user = user
+        self.PC = work_station
+        self.path = path
+
+
+def set_path(folder, path1, path2, office):
+    if office.PC == "home":
+        folder = path1 + folder
+    else:
+        folder = path2 + folder
+    return folder
+
+
+home_office = office("FH", "ag-bluhm-16", path_office)
+sample_folder = set_path(sample_folder, path_office, path_home, office=A303_office)
 #%%
 """define experiment and data set"""
 class experiment():
@@ -94,7 +117,7 @@ def all_sheets_txt_export(experiment, light=False):
 
 
 #%%
-#all_sheets_txt_export(Area_data_set, light=False)
+all_sheets_txt_export(Area_data_set, light=False)
 #%% 
 """read single xls containing alternatingly light/ dark data
     save sheets to txt-file"""
@@ -183,8 +206,9 @@ def light_dark_single_txt_files_export(data_set, light):
                                            write_param)
     elif structure_type =="Areas":
         #write_param=... #to be fixed
-        write_param = data_set.pad_labels[write_param];
-        save_name= "%s_%s_Areas_%f_Areas_%s.txt" % (data_set.date, data_set.structure,
+        write_param = data_set.pad_labels[write_param]
+        save_name= "%s_%s_Areas_%f_Areas_%s.txt" % (data_set.date,
+                                                    data_set.structure,
                                                     write_param)
     
     save_name= "%s\\%s_high_res" %(data_folder, save_name)
