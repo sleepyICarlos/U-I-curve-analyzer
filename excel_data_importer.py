@@ -48,17 +48,19 @@ print(my_book)
 class experiment():
     def __init__(self, structure="", pad_labels=[], contact_type="TLM",
                  xls_name="", sample_folder="", comment="", date=""):
-        self.xls_name= xls_name
+        self.xls_name = xls_name
         self.contact_type = contact_type
         self.structure = structure
-        self.pad_labels= pad_labels             #contact pads
-        self.comment =comment
-        self.sample_folder= sample_folder
-        self.data_folder= sample_folder + "\\data"
-        self.date=date
+        self.pad_labels = pad_labels             #contact pads
+        self.comment = comment
+        self.sample_folder = sample_folder
+        self.data_folder = sample_folder + "\\data"
+        self.date = date
+
+
 #%%
-TLM_data_set = experiment(structure=sample_name, xls_name=my_book,
-                          sample_folder=my_sample_folder, date=date)
+TLM_data_set = experiment(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder, date=date)
+
 
 Area_data_set = experiment(structure=sample_name, xls_name=my_book,
                            pad_labels=area_pad_labels,
@@ -66,24 +68,24 @@ Area_data_set = experiment(structure=sample_name, xls_name=my_book,
                            date=date)
 #%%
 def export_sheet_to_txt(xls_name, sheet_index, save_name, precision=precision):  
-    sheet_array = pyexcel.get_array(file_name = xls_name,
+    sheet_array = pyexcel.get_array(file_name=xls_name,
                                     sheet_index=sheet_index)
     precision-=1
     my_format='%.'+str(int(precision))+'e'
     #set header:
-    rows = sheet_array[0][0]+"\t"+ sheet_array[0][1]
+    rows = sheet_array[0][0]+"\t" + sheet_array[0][1]
     np.savetxt(save_name,sheet_array[1:],fmt=my_format,
-               header=rows,comments="",delimiter="\t")
+               header=rows, comments="", delimiter="\t")
 #%% 
 """read single xls containing only light/dark data, save sheets to txt-file"""
 def all_sheets_txt_export(experiment, light=False): 
-    xls_name=experiment.xls_name           #structure: TLM, Areas, Stripes, ... TODO!!!
-    book = pyexcel.get_book(file_name=xls_name)
-    number_of_sheets=book.number_of_sheets()
+    xls_name = experiment.xls_name           # structure: TLM, Areas, Stripes, ... TODO!!!
+    book = pyexcel.get_book(file_name = xls_name)
+    number_of_sheets = book.number_of_sheets()
     if light:
-        export_folder=sample_folder + "\\data with light"
+        export_folder = experiment.sample_folder + "\\data with light"
     else:
-        export_folder=sample_folder + "\\data without light"
+        export_folder = experiment.sample_folder + "\\data without light"
     if not os.path.exists(export_folder):
         os.makedirs(export_folder)
         
@@ -99,17 +101,17 @@ def all_sheets_txt_export(experiment, light=False):
                 
             #select the right formatter depending on the measured structure:
             structure_type= experiment.contact_type
-            if structure_type =="TLM":
-                    write_param *= 30
-                    save_name= "%s_%s_TLM_%d_um.txt" %(date, 
-                                                       experiment.structure,
-                                                       write_param)
-            elif structure_type =="Areas":
-                    print("Areas", write_param)
-                    write_param = experiment.pad_labels[write_param-1];
-                    save_name= "%s_%s_Areas_%s.txt" % (date, 
-                                                       experiment.structure,
-                                                       write_param)
+            if structure_type == "TLM":
+                write_param *= 30
+                save_name = "%s_%s_TLM_%d_um.txt" % (date,
+                                                    experiment.structure,
+                                                    write_param);                                                      )
+            if structure_type == "Areas":
+                print("Areas", write_param);
+                write_param = experiment.pad_labels[write_param-1];
+                save_name= "%s_%s_Areas_%s.txt" % (date, experiment.structure, write_param);
+            else:
+                continue
                     
             save_name= "%s\\%s" %(export_folder, save_name)
             export_sheet_to_txt(xls_name, sheet_index, save_name)
