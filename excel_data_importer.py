@@ -7,13 +7,13 @@ Created on Tue May 22 15:03:11 2018
 import pyexcel
 import numpy as np
 import os
+import excel_lib
 
 """read xls and write txt files
         !!!user input required!!!
         precision is now set to 5 digits"""
 # adjustable parameters:
 sample_path = "M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas"
-
 data_date = "23-5-18"
 sample_name = "143-2"
 area_pad_labels = ["6-6", "5-5", "4-4"]  # area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
@@ -25,56 +25,32 @@ path_home = "D:\\documents\\sciebo\\ZnSe\\wafer\\"
 data_precision = 5           # number of digits
 
 
-
-
-
 def set_path(office, sub_folder):
     path = office.folder + sub_folder
     print(path)
     return path
 
 
-
-my_sample_folder = set_path(home_office, sample_path)
+my_sample_folder = set_path(path_office, sample_path)
 print(my_sample_folder)
 my_book = my_sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
 print(my_book)
-export_light_dark(Area_data_set)
+
 
 #%%
 """define work_station and data sets"""
 
 
-class Office:
-    def __init__(self, user, work_station, folder):
-        self.user = user
-        self.PC = work_station
-        self.folder = folder
-
-
-class DataSet:
-    def __init__(self, structure="", pad_labels=[], contact_type="TLM",
-                 xls_name="", sample_folder="", comment="", date=data_date):
-        self.xls_name = xls_name
-        self.contact_type = contact_type
-        self.structure = structure
-        self.pad_labels = pad_labels             # labels for identifying different contact pads
-        self.comment = comment
-        self.sample_folder = sample_folder
-        self.data_folder = sample_folder + "\\data"
-        self.date = date
 
 
 #%%
-TLM_data_set = DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder)
-
-
-Area_data_set = DataSet(structure=sample_name, xls_name=my_book,
-                           pad_labels=area_pad_labels,
-                           contact_type="Areas", sample_folder=my_sample_folder)
-
 home_office = Office("FH", "Felix-PC", path_home)
 uni_office = Office("FH", "ag-bluhm-16", folder=path_office)
+TLM_data_set = DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder)
+Area_data_set = DataSet(structure=sample_name, xls_name=my_book, pad_labels=area_pad_labels,
+                        contact_type="Areas", sample_folder=my_sample_folder)
+
+
 
 
 #%%

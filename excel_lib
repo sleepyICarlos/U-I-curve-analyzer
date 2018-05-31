@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May 31 16:22:11 2018
+
+@author: hartz
+"""
+
+class Office:
+    def __init__(self, user, work_station, folder):
+        self.user = user
+        self.PC = work_station
+        self.folder = folder
+
+
+class DataSet:
+    def __init__(self, structure="", pad_labels=[], contact_type="TLM",
+                 xls_name="", sample_folder="", comment="", date=""):
+        self.xls_name = xls_name
+        self.contact_type = contact_type
+        self.structure = structure
+        self.pad_labels = pad_labels             # labels for identifying different contact pads
+        self.comment = comment
+        self.sample_folder = sample_folder
+        self.data_folder = sample_folder + "\\data"
+        self.date = date
