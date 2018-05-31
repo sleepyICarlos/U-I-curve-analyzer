@@ -176,7 +176,6 @@ def light_dark_single_txt_files_export(data_set, light):
     xls_name = data_set.xls_name
     folder = data_set.sample_folder
     structure_type = data_set.contact_type
-    contents = xls_name.split("_")
     # select the right sheet and create data folder
     if light:
         sheet_index = 0
@@ -187,13 +186,16 @@ def light_dark_single_txt_files_export(data_set, light):
     if not os.path.exists(data_folder):
         os.makedirs(data_folder)
 
-    write_param = str(contents[-2])
+    contents = xls_name.split(".")
+    contents = contents[0].split("_")
     if structure_type == "TLM":
+        write_param = str(contents[-2])
         save_name = "%s_%s_TLM_%s_um.txt" % (data_set.date, data_set.structure, write_param)
     elif structure_type == "Areas":
-        save_name = "%s_%s_Areas_%f_Areas_%s.txt" % (data_set.date, data_set.structure, write_param)
+        write_param = str(contents[-1])
+        save_name = "%s_%s_Areas_%s.txt" % (data_set.date, data_set.structure, write_param)
 
-    save_name = "%s\\%s_high_res" % (data_folder, save_name)
+    save_name = "%s\\%s" % (data_folder, save_name)     # optional insert your file name extension here
     export_sheet_to_txt(xls_name, sheet_index, save_name)
 
 

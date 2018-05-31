@@ -12,14 +12,15 @@ import excel_lib as ex
 
 # adjustable parameters:
 sample_path = "M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas"
-data_date = "23-5-18"
-sample_name = "143-2"
-area_pad_labels = ["6-6", "5-5", "4-4"]  # area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
-area_pad_labels.reverse()  # optional
+data_date = "22-5-18"
+sample_name = "143-1"
+# area_pad_labels = ["6-6", "5-5", "4-4"]  #
+area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
+# area_pad_labels.reverse()  # optional
 office = True
 
 my_sample_folder = ex.set_sample_folder(sample_path, office=False)
-my_book = my_sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
+my_book = my_sample_folder + "\\data\\22-5-18_143-1_Areas_6-6"
 print("Read %s in dir %s" % (my_book, my_sample_folder))
 
 #%%
@@ -31,5 +32,6 @@ Area_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folde
 
 
 # ex.all_sheets_txt_export(Area_data_set, light=False)
-ex.alt_export_all(Area_data_set)
-# ex.export_light_dark(Area_data_set)
+# ex.alt_export_all(Area_data_set)
+ex.export_light_dark(Area_data_set)
+ex.export_light_dark(TLM_data_set)
