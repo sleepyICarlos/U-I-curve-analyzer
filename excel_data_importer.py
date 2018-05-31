@@ -10,7 +10,6 @@ import excel_lib as ex
         !!!user input required!!!
         precision is now preset to 5 digits"""
 
-
 # adjustable parameters:
 sample_path = "M12-0143\\U-I data\\143-2 Mg+Ar mill + H2O etch\\bonded Areas"
 data_date = "23-5-18"
@@ -19,20 +18,18 @@ area_pad_labels = ["6-6", "5-5", "4-4"]  # area_pad_labels=["1-1", "2-2", "3-3",
 area_pad_labels.reverse()  # optional
 office = True
 
-
 my_sample_folder = ex.set_sample_folder(sample_path, office=False)
 my_book = my_sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
-print("Read %s in dir $s" %(my_book, my_sample_folder))
+print("Read %s in dir %s" % (my_book, my_sample_folder))
 
 #%%
 """define work_station and data sets"""
 
+TLM_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder, date=data_date)
+Area_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder, date=data_date,
+                           pad_labels=area_pad_labels, contact_type="Areas")
 
-TLM_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, sample_folder=my_sample_folder)
-Area_data_set = ex.DataSet(structure=sample_name, xls_name=my_book, pad_labels=area_pad_labels,
-                           contact_type="Areas", sample_folder=my_sample_folder)
 
-
-ex.all_sheets_txt_export(Area_data_set, light=False)
+# ex.all_sheets_txt_export(Area_data_set, light=False)
 ex.alt_export_all(Area_data_set)
-ex.export_light_dark(Area_data_set)
+# ex.export_light_dark(Area_data_set)

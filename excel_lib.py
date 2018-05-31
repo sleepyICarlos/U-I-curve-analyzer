@@ -15,7 +15,6 @@ class Office:
         self.PC = work_station
         self.folder = folder
 
-
 class DataSet:
     def __init__(self, structure="", pad_labels=[], contact_type="TLM",
                  xls_name="", sample_folder="", comment="", date=""):
@@ -37,17 +36,19 @@ data_precision = 5           # number of digits
 home_office = Office("FH", "Felix-PC", path_home)
 uni_office = Office("FH", "ag-bluhm-16", path_office)
 
-def set_path(office, sub_folder):
-    path = office.folder + sub_folder
+
+def set_path(work_station, sub_folder):
+    path = work_station.folder + sub_folder
     print(path)
     return path
 
 
 def set_sample_folder(sub_path, office=True):
     if office:
-        my_sample_folder = set_path(path_office, sub_path)
+        work_station= uni_office
     else:
-        my_sample_folder = set_path(path_home, sub_path)
+        work_station = home_office
+    my_sample_folder = set_path(work_station, sub_path)
     return my_sample_folder
 
 
@@ -162,7 +163,7 @@ def alt_export_all(data_set):
     alt_sheet_export(data_set, light=False)
 
 
-# %%
+#%%
 """for different books with the following structure: light + dark data:
     (only sheet0 and sheet3 contain relevant data)
     read xls-books and write txt.files to separate subfolders
