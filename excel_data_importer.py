@@ -154,7 +154,7 @@ def alt_export_all(data_set):
     alt_sheet_export(data_set, light=True)
     alt_sheet_export(data_set, light=False)
 #%%
-alt_export_all(Area_data_set)
+#alt_export_all(Area_data_set)
 #%%
 """for different books with the following structure: light + dark data:
     (only sheet0 and sheet3 contain relevant data)
