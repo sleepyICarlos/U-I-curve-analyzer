@@ -13,11 +13,11 @@ import os
         !!!user imput required!!!
         precision is now set to 5 digits"""
 sample_folder = ("Z:\\sciebo\\promotion\\6_LogsDataAnalysis\\1_data\\" +
-            "IHT_probe_station\\M12-0143\\143-2 Mg+Ar mill + H2O etch\\bonded Areas")
-book = sample_folder + "\\data\\23-5-18_143-3_Areas_highres.xls"
-date="23-5-18"
+            "IHT_probe_station\\M12-0143\\143-1(Ar+H20)\\bonded Areas")
+book = sample_folder + "\\data\\25-5-18_143-1_Areas.xls"
+date="25-5-18"
 sample_name = "143-2"
-area_pad_labels=["6-6"]#, "5-5"]
+area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
 #area_pad_labels=["1-1", "2-2", "3-3", "4-4", "5-5", "6-6"]
 area_pad_labels.reverse() #optional
 precision= 5 #digits
