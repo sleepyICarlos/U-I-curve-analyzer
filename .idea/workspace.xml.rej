@@ -1,0 +1,14 @@
+diff a/.idea/workspace.xml b/.idea/workspace.xml	(rejected hunks)
+@@ -1,7 +1,11 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="4ed9a20c-bc2d-4926-87a0-35269c4c897b" name="Default" comment="" />
++    <list default="true" id="4ed9a20c-bc2d-4926-87a0-35269c4c897b" name="Default" comment="">
++      <change afterPath="$PROJECT_DIR$/data_converter" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/excel_data_importer.py" beforeDir="false" afterPath="$PROJECT_DIR$/excel_data_importer.py" afterDir="false" />
++    </list>
+     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+     <option name="TRACKING_ENABLED" value="true" />
+     <option name="SHOW_DIALOG" value="false" />
